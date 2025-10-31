@@ -1,9 +1,9 @@
 import { format, isAfter } from "date-fns";
 import { MoreHorizontal, SearchX, Trash } from "lucide-react";
 import Header from "@/components/header";
-import { Card, CardContent } from "./components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useTodoStore } from "@/store/todoStore";
-import { Button } from "./components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Fragment } from "react/jsx-runtime";
-import { Checkbox } from "./components/ui/checkbox";
-import EditTaskForm from "./components/editTaskForm";
+import { Checkbox } from "@/components/ui/checkbox";
+import EditTaskForm from "@/components/editTaskForm";
 
 const App = () => {
   const { todo, deleteTodo, updateTodo } = useTodoStore();

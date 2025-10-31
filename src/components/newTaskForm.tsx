@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 import z from "zod";
 import {
   Form,
@@ -9,7 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from ".pnpm/@hookform+resolvers@5.2.2_react-hook-form@7.65.0_react@19.2.0_/node_modules/@hookform/resolvers/zod/src/zod.js";
 import {
   Dialog,
   DialogClose,
@@ -19,16 +18,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { CalendarIcon, Plus } from "lucide-react";
-import { Textarea } from "./ui/textarea";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Calendar } from "./ui/calendar";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useTodoStore } from "@/store/todoStore";
 import { toast } from "sonner";
-import { Switch } from "./ui/switch";
+import { Switch } from "@/components/ui/switch";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const NewTaskForm = () => {
   const { createTodo } = useTodoStore();

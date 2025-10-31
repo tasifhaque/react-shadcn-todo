@@ -72,8 +72,8 @@ const EditTaskForm = ({ todo }: { todo: TodoType }) => {
       complete: data.complete,
     });
 
-    taskToast.success("Task created successfully", {
-      description: `Task ${data.title} created successfully for ${format(
+    taskToast.success("Task updated successfully", {
+      description: `Task ${data.title} updated successfully for ${format(
         data.date,
         "PPP"
       )}`,

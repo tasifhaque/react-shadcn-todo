@@ -14,6 +14,7 @@ import {
 import { Fragment } from "react/jsx-runtime";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditTaskForm from "@/components/editTaskForm";
+import { toast } from "sonner";
 
 const App = () => {
   const { todo, deleteTodo, updateTodo } = useTodoStore();
@@ -116,6 +117,9 @@ const App = () => {
                             <DropdownMenuItem
                               onClick={() => {
                                 deleteTodo(id);
+                                toast.success(`Task deleted successfully`, {
+                                  description: `Task ${title} deleted successfully`,
+                                });
                               }}
                             >
                               <Trash /> Delete

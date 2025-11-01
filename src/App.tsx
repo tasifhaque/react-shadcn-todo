@@ -24,9 +24,9 @@ const App = () => {
   });
 
   return (
-    <div className="container mx-auto my-9">
+    <div className="container mx-auto my-6 px-4 sm:px-6 lg:px-8">
       <Header />
-      <Card className="my-8">
+      <Card className="my-6">
         <CardContent className="grid gap-3">
           {todo.length === 0 && (
             <div className="flex flex-col items-center justify-center">

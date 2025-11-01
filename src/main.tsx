@@ -4,7 +4,6 @@ import App from "@/App.tsx";
 import ThemeProvider from "@/provider/themeProvider.tsx";
 import { Toaster } from "@/components/ui/sonner";
 
-
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider>
     <App />

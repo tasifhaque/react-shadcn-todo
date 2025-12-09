@@ -1,12 +1,13 @@
 import { createRoot } from "react-dom/client";
 import "@/index.css";
-import App from "@/App.tsx";
-import ThemeProvider from "@/provider/themeProvider.tsx";
-import { Toaster } from "@/components/ui/sonner";
+
+import { RouterProvider } from "react-router";
+import { router } from "@/utils/route";
+import ThemeProvider from "@/provider/themeProvider";
+import { Toaster } from "sonner";
 
 createRoot(document.getElementById("root")!).render(
   <ThemeProvider>
-    <App />
     <Toaster
       toastOptions={{
         classNames: {
@@ -14,5 +15,6 @@ createRoot(document.getElementById("root")!).render(
         },
       }}
     />
+    <RouterProvider router={router} />
   </ThemeProvider>
 );

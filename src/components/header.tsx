@@ -10,24 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAuth, onAuthStateChanged, signOut, type User } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { firebaseAuth } from "@/lib/db";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useAuthStore } from "@/store/authStore";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-
-  const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUser(user);
-      console.log(user?.email);
-      console.log(user?.displayName);
-    } else {
-    }
-  });
+  const { user } = useAuthStore();
 
   const logout = async () => {
     try {
@@ -60,7 +50,7 @@ const Header = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel className="flex flex-col gap-1">
-                {user?.displayName}
+                {user?.name}
                 <p className="text-muted-foreground">{user?.email}</p>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

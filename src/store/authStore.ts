@@ -1,18 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type UserType = {
+export type UserType = {
   uid: string;
   email: string;
-  displayName: string | null;
-  emailVerified: boolean;
+  name: string;
 };
 
 export type AuthStoreType = {
   user: UserType | null;
   authLoading: boolean;
-  authError: boolean;
-  setUser: (user: Partial<UserType>) => void;
+  setLoading: (loading: boolean) => void;
+  setUser: (user: UserType) => void;
   removeUser: () => void;
 };
 
@@ -20,10 +19,10 @@ export const useAuthStore = create<AuthStoreType>()(
   persist(
     (set) => ({
       user: null,
-      authLoading: true,
-      authError: false,
-      setUser: () => ({}),
-      removeUser: () => set({ user: null, authLoading: false }),
+      authLoading: false,
+      setLoading: (loading) => set({ authLoading: loading }),
+      setUser: (user) => set({ user }),
+      removeUser: () => set({ user: null }),
     }),
     { name: "authUser" }
   )

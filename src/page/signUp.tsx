@@ -10,7 +10,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { get, getDatabase, ref, set } from "firebase/database";
+import { get, ref, set } from "firebase/database";
 import { Loader } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { Link } from "react-router";
@@ -19,6 +19,7 @@ import z from "zod";
 
 const SignupPage = () => {
   const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: 'select_account' });
 
   const googleSignUp = async () => {
     try {
@@ -30,8 +31,8 @@ const SignupPage = () => {
       if (!userData) {
         await set(ref(firebaseDB, `users/${user?.uid}`), {
           uid: user.uid,
-          email: user.email,
           name: user.displayName,
+          email: user.email,
         });
       }
     } catch (err) {}
@@ -83,11 +84,9 @@ const SignupPage = () => {
       console.log(authStatus?.user?.uid);
       if (authStatus?.user?.uid) {
         set(ref(firebaseDB, `users/${authStatus?.user?.uid}`), {
-          firstName: data?.firstName,
-          lastName: data?.lastName,
+          uid: authStatus?.user?.uid,
+          name: data?.firstName + " " + data?.lastName,
           email: data?.email,
-          registrationPoint: 500,
-          firstOrder: true,
         });
       }
     } catch (e) {

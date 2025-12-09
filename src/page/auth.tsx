@@ -1,20 +1,19 @@
-import { firebaseAuth } from "@/lib/db";
-import { onAuthStateChanged } from "firebase/auth";
+import { useAuthStore } from "@/store/authStore";
 import { Loader } from "lucide-react";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 
 const Auth = () => {
-  const [pageLoading, setPageLoading] = useState(true);
   const navigate = useNavigate();
+  const { user, authLoading } = useAuthStore();
 
-  onAuthStateChanged(firebaseAuth, (user) => {
-    if (user?.uid) {
+  useEffect(() => {
+    if (user) {
       navigate("/", { replace: true });
     }
-    setPageLoading(false);
-  });
-  return pageLoading ? (
+  }, [user]);
+
+  return authLoading ? (
     <div className="flex items-center justify-center h-dvh">
       <div className="flex items-center gap-3">
         <Loader size={32} className="animate-spin" />

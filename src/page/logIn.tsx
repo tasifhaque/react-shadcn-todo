@@ -50,7 +50,6 @@ export function SigninPage() {
 
   const {
     handleSubmit,
-    setError,
     control,
     formState: { isSubmitting },
   } = useForm({

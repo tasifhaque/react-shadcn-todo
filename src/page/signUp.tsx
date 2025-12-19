@@ -82,13 +82,11 @@ const SignupPage = () => {
         data.password
       );
 
-      console.log(authStatus?.user?.uid);
       if (authStatus?.user?.uid) {
         set(ref(firebaseDB, `users/${authStatus?.user?.uid}`), {
           uid: authStatus?.user?.uid,
           name: data?.firstName + " " + data?.lastName,
           email: data?.email,
-          todos: [{ date: new Date().toLocaleDateString() }],
         });
       }
     } catch (e) {

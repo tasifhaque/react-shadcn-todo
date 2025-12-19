@@ -71,7 +71,6 @@ export function SigninPage() {
         navigate("/", { replace: true });
       }
     } catch (r) {
-      console.log(r);
       toast.error("Sign in Failed", {
         description:
           "Error signing in, please check your credentials and try again!",

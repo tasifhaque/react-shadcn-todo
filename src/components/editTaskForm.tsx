@@ -75,7 +75,6 @@ const EditTaskForm = ({ todo }: { todo: TodoType }) => {
       return to.id !== todo.id;
     });
 
-    console.log(findTodo, otherTodos);
 
     if (findTodo) {
       const updatedTodo: TodoType = {

@@ -60,11 +60,11 @@ const SignupPage = () => {
     formState: { isSubmitting },
   } = useForm({
     defaultValues: {
-      firstName: "Hello",
-      lastName: "World",
-      email: "hello@gmail.com",
-      password: "hello12",
-      confirmPassword: "hello12",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
     resolver: zodResolver(signUpSchema),
   });

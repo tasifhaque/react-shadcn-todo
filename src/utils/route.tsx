@@ -4,7 +4,6 @@ import { SigninPage } from "@/page/logIn";
 import SignupPage from "@/page/signUp";
 import Auth from "@/page/auth";
 import ProtectedPage from "@/page/protectedPage";
-import Dashboard from "@/page/dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -15,10 +14,6 @@ export const router = createBrowserRouter([
         path: "/",
         index: true,
         element: <App />,
-      },
-      {
-        path: "/dashboard",
-        element: <Dashboard />,
       },
     ],
   },

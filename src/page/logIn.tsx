@@ -54,8 +54,8 @@ export function SigninPage() {
     formState: { isSubmitting },
   } = useForm({
     defaultValues: {
-      email: "hello@gmail.com",
-      password: "hello12",
+      email: "",
+      password: "",
     },
     resolver: zodResolver(loginSchema),
   });

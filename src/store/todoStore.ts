@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { nanoid } from "nanoid";
 
 export type TodoType = {
   id: string;
@@ -14,6 +13,8 @@ export type TodoType = {
 
 type TodoStoreType = {
   todo: TodoType[];
+  setTodo: (todos: TodoType[]) => void;
+  removeTodo: () => void;
   createTodo: (todo: Partial<TodoType>) => void;
   getTodo: (id: string) => TodoType | undefined;
   updateTodo: (id: string, todo: Partial<TodoType>) => void;
@@ -24,18 +25,24 @@ export const useTodoStore = create<TodoStoreType>()(
   persist(
     (set, get) => ({
       todo: [],
+      setTodo: (todos) => {
+        set({ todo: todos });
+      },
+      removeTodo: () => {
+        set({ todo: [] });
+      },
       createTodo: (todo) => {
         set({
           todo: [
             ...get().todo,
             {
-              id: nanoid().toLowerCase(),
+              id: todo.id!,
               title: todo.title!,
               description: todo.description!,
               date: todo.date!,
               complete: todo.complete!,
-              createdAt: new Date().toISOString(),
-              updatedAt: null,
+              createdAt: todo.createdAt!,
+              updatedAt: todo.updatedAt!,
             },
           ],
         });

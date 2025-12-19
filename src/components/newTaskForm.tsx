@@ -29,14 +29,16 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useTodoStore } from "@/store/todoStore";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTodoStore } from "@/store/todoStore";
+import { useAuthStore } from "@/store/authStore";
+import { ref, set } from "firebase/database";
+import { firebaseDB } from "@/lib/db";
+import { nanoid } from "nanoid";
 
 const NewTaskForm = () => {
-  const { createTodo } = useTodoStore();
-
   const [dialogOpen, setDialogOpen] = useState(false);
   const [popOverOpen, setPopOverOpen] = useState(false);
 
@@ -60,15 +62,32 @@ const NewTaskForm = () => {
   });
   const { handleSubmit, control } = form;
 
+  const { user } = useAuthStore();
+  useTodoStore();
+
   const onSubmit = (data: FormType) => {
     const taskToast = toast;
 
-    createTodo({
-      title: data.title,
-      description: data.description,
-      date: data.date.toISOString(),
-      complete: data.complete,
-    });
+    try {
+      const newTodo = {
+        id: nanoid().toLowerCase(),
+        title: data.title!,
+        description: data.description!,
+        date: new Date(data.date).toISOString(),
+        complete: data.complete!,
+        createdAt: new Date().toISOString(),
+        updatedAt: null,
+      };
+
+      if (user?.uid) {
+        set(ref(firebaseDB, `users/${user.uid}`), {
+          ...user,
+          todos: [...(user.todos || []), newTodo],
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
     taskToast.success("Task created successfully", {
       description: `Task ${data.title} created successfully for ${format(

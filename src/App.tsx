@@ -16,13 +16,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import EditTaskForm from "@/components/editTaskForm";
 import { toast } from "sonner";
 import NewTaskForm from "./components/newTaskForm";
+import { useAuthStore } from "./store/authStore";
+import { ref, set } from "firebase/database";
+import { firebaseDB } from "./lib/db";
 
 const App = () => {
-  const { todo, deleteTodo, updateTodo } = useTodoStore();
+  const { todo, updateTodo } = useTodoStore();
+  const { user } = useAuthStore();
 
-  const groupedTodo = Object.groupBy(todo, ({ date }) => {
-    return format(new Date(date), "PPP");
-  });
+  const groupedTodo = Object.groupBy(todo, ({ date }) =>
+    format(new Date(date), "PPP")
+  );
 
   return (
     <>
@@ -127,7 +131,16 @@ const App = () => {
                               />
                               <DropdownMenuItem
                                 onClick={() => {
-                                  deleteTodo(id);
+                                  const filteredTodo = user?.todos?.filter(
+                                    (to) => {
+                                      return to.id !== id;
+                                    }
+                                  );
+
+                                  set(ref(firebaseDB, `users/${user?.uid}`), {
+                                    ...user,
+                                    todos: filteredTodo,
+                                  });
                                   toast.success(`Task deleted successfully`, {
                                     description: `Task ${title} deleted successfully`,
                                   });

@@ -1,10 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { TodoType } from "@/store/todoStore";
 
 export type UserType = {
   uid: string;
   email: string;
   name: string;
+  todos: TodoType[];
 };
 
 export type AuthStoreType = {

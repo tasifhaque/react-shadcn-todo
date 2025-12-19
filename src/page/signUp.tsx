@@ -19,7 +19,7 @@ import z from "zod";
 
 const SignupPage = () => {
   const provider = new GoogleAuthProvider();
-  provider.setCustomParameters({ prompt: 'select_account' });
+  provider.setCustomParameters({ prompt: "select_account" });
 
   const googleSignUp = async () => {
     try {
@@ -33,6 +33,7 @@ const SignupPage = () => {
           uid: user.uid,
           name: user.displayName,
           email: user.email,
+          todos: [{ date: new Date().toLocaleDateString() }],
         });
       }
     } catch (err) {}
@@ -87,6 +88,7 @@ const SignupPage = () => {
           uid: authStatus?.user?.uid,
           name: data?.firstName + " " + data?.lastName,
           email: data?.email,
+          todos: [{ date: new Date().toLocaleDateString() }],
         });
       }
     } catch (e) {

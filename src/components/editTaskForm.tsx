@@ -29,15 +29,18 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useTodoStore, type TodoType } from "@/store/todoStore";
+import { type TodoType } from "@/store/todoStore";
 import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthStore } from "@/store/authStore";
+import { ref, set } from "firebase/database";
+import { firebaseDB } from "@/lib/db";
 
 const EditTaskForm = ({ todo }: { todo: TodoType }) => {
-  const { updateTodo } = useTodoStore();
+  const { user } = useAuthStore();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [popOverOpen, setPopOverOpen] = useState(false);
@@ -65,12 +68,30 @@ const EditTaskForm = ({ todo }: { todo: TodoType }) => {
   const onSubmit = (data: FormType) => {
     const taskToast = toast;
 
-    updateTodo(todo.id, {
-      title: data.title,
-      description: data.description,
-      date: data.date.toISOString(),
-      complete: data.complete,
+    const findTodo = user?.todos?.find((to) => {
+      return to.id === todo.id;
     });
+    const otherTodos = user?.todos?.filter((to) => {
+      return to.id !== todo.id;
+    });
+
+    console.log(findTodo, otherTodos);
+
+    if (findTodo) {
+      const updatedTodo: TodoType = {
+        id: findTodo.id,
+        title: data.title!,
+        description: data.description!,
+        date: new Date(data.date).toISOString(),
+        complete: data.complete!,
+        createdAt: findTodo.createdAt,
+        updatedAt: new Date().toISOString(),
+      };
+      set(ref(firebaseDB, `users/${user?.uid}`), {
+        ...user,
+        todos: [...(otherTodos || []), updatedTodo],
+      });
+    }
 
     taskToast.success("Task updated successfully", {
       description: `Task ${data.title} updated successfully for ${format(

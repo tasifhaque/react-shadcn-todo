@@ -131,19 +131,26 @@ const App = () => {
                               />
                               <DropdownMenuItem
                                 onClick={() => {
-                                  const filteredTodo = user?.todos?.filter(
-                                    (to) => {
-                                      return to.id !== id;
-                                    }
-                                  );
+                                  try {
+                                    const filteredTodo = user?.todos?.filter(
+                                      (to) => {
+                                        return to.id !== id;
+                                      }
+                                    );
 
-                                  set(ref(firebaseDB, `users/${user?.uid}`), {
-                                    ...user,
-                                    todos: filteredTodo,
-                                  });
-                                  toast.success(`Task deleted successfully`, {
-                                    description: `Task ${title} deleted successfully`,
-                                  });
+                                    set(ref(firebaseDB, `users/${user?.uid}`), {
+                                      ...user,
+                                      todos: filteredTodo,
+                                    });
+
+                                    toast.success(`Task deleted successfully`, {
+                                      description: `Task ${title} deleted successfully`,
+                                    });
+                                  } catch (error) {
+                                    toast.error(`Failed to delete task!`, {
+                                      description: `Something went wrong deleting ${title}, please try again later`,
+                                    });
+                                  }
                                 }}
                               >
                                 <Trash /> Delete
